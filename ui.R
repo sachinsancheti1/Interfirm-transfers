@@ -6,9 +6,13 @@
 #
 
 library(shiny)
-library(networkD3)
+library(d3Network)
 shinyUI(fluidPage(
-
+  tags$head(
+    #tags$script(src = 'http://d3js.org/d3.v3.min.js'),
+    tags$script(src = 'something.js'),
+    tags$script(src = 'newscript.js')
+  ),
   # Application title
   titlePanel("Old Faithful Geyser Data"),
 
@@ -24,7 +28,7 @@ shinyUI(fluidPage(
 
     # Show a plot of the generated distribution
     mainPanel(
-      sankeyNetworkOutput("distPlot")
+      htmlOutput("distPlot")
     )
   )
 ))

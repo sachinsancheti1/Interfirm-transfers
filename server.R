@@ -7,23 +7,23 @@
 
 library(shiny)
 library(RCurl)
-library(networkD3)
+library(dplyr)
 shinyServer(function(input, output) {
-  URL <- "https://raw.githubusercontent.com/christophergandrud/networkD3/master/JSONdata/energy.json"
-  Energy <- getURL(URL, ssl.verifypeer = FALSE)
-  
-  # Convert to data frame
-#   EngLinks <- JSONtoDF(jsonStr = Energy,
-#                        array = "links")
-#   EngNodes <- JSONtoDF(jsonStr = Energy,
-#                        array = "nodes")
-  EngNodes = data.frame(name = c("Vaishali","Nilga","Arihant","Gokul","Kirthi","Kamal"))
-  EngLinks = read.table("Links.txt", header = T)
-  output$distPlot <- renderSankeyNetwork({
-    sankeyNetwork(Links = EngLinks, Nodes = EngNodes,
-                  Source = "source", Target = "target",
-                  Value = "value", NodeID = "name",
-                  width = 700, fontsize = 12, nodeWidth = 30)
+  output$distPlot <- renderPrint({
+    dt.l <- tbl_df(read.table("Links.txt", header = T))
+    dt.n <- tbl_df(read.table("Nodes.txt",header = T))
+    dt.l1 = dt.l %>%
+      left_join(dt.n,by = c("source"="name")) %>%
+      left_join(dt.n,by = c("target"="name")) %>%
+      as.data.frame
+    dt.n = dt.n %>% as.data.frame
+    
+    d3ForceNetwork(Links =dt.l1,Nodes = dt.n,fontsize = 15,linkDistance = 60,
+                 Source = "rname.x", Target = "rname.y",
+                 Value = "group.x",NodeID = "name",
+                 Group = "group",
+                 opacity = 0.9
+      )
   })
 
 })

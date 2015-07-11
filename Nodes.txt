@@ -1,0 +1,10 @@
+name  group rname
+khivrajsancheti 1 0
+sanchetikailash 1 1
+sachin.sancheti 1 2
+bhagyavitrag  1 3
+muralivitrag  1 4
+jaichandvitrag  1 5
+vitraginfra 2 6
+vitraginfra.marketing 2 7
+arihantblders 2 8
